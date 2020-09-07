@@ -1,6 +1,8 @@
 # margov
 A Markov chain implementation in Go.
 
+![Chain](./chain.png)
+
 ```bash
 ➜  margov git:(master) ✗ go run .
 P(Cloudy|Sunny) = 1.15
