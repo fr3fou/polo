@@ -4,4 +4,4 @@ package margov
 type State = string
 
 // Chain is a Sequence of random states -> probabilities.
-type Chain map[State]float64
+type Chain map[State][][]float64
