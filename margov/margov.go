@@ -56,6 +56,7 @@ func (c Chain) Next(current State) State {
 	for next, probability := range c[current] {
 		if probability > max {
 			bestState = next
+			max = probability
 		}
 	}
 
