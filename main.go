@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	stdrand "math/rand"
+	"time"
 
 	"github.com/fr3fou/margov/margov"
 )
@@ -12,7 +14,11 @@ const (
 	Cloudy = "Cloudy"
 )
 
-func main() {
+func init() {
+	stdrand.Seed(time.Now().Unix())
+}
+
+func _main() {
 	chain := margov.New()
 
 	// Given that the current day is Sunny.
