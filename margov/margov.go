@@ -1,5 +1,10 @@
 package margov
 
+import (
+	"fmt"
+	"strings"
+)
+
 // State is a string.
 type State = string
 
@@ -22,4 +27,17 @@ func (c Chain) Set(next State, current State, probability float64) {
 	}
 
 	c[current][next] = probability
+}
+
+func (c Chain) String() string {
+	sb := strings.Builder{}
+
+	for current, matrix := range c {
+		for next, probability := range matrix {
+			sb.WriteString(fmt.Sprintf("P(%s|%s) = %.02f\n", next, current, probability))
+		}
+		sb.WriteString("\n")
+	}
+
+	return sb.String()
 }

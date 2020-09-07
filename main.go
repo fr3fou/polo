@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/fr3fou/margov/margov"
 )
 
@@ -27,4 +29,6 @@ func main() {
 	chain.Set(Sunny, Cloudy, 0.2)
 	chain.Set(Rainy, Cloudy, 0.3)
 	chain.Set(Cloudy, Cloudy, 0.5)
+
+	fmt.Println(chain)
 }
