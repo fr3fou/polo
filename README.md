@@ -23,6 +23,12 @@ The probability of tomorrow being Sunny, given that today was Rainy is 0.2
 The next state, given that today was Sunny is Rainy
 ```
 
+## TODO
+
+- [x] Basic Markov Chain
+- [ ] Drawing/Visualizing a graph of chain with probabilities
+- [ ] Higher Order Chains 
+
 ## References
 
 - <http://cecas.clemson.edu/~ahoover/ece854/refs/Ramos-Intro-HMM.pdf>
