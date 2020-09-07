@@ -20,7 +20,7 @@ P(Cloudy|Cloudy) = 0.50
 
 The probability of tomorrow being Sunny, given that today was Rainy is 0.2
 
-The next state, given that today was Sunny is Rainy
+The next state, given that today was Sunny is Sunny
 ```
 
 ## TODO
