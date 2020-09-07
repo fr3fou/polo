@@ -28,6 +28,7 @@ The next state, given that today was Sunny is Rainy
 - [x] Basic Markov Chain
 - [ ] Drawing/Visualizing a graph of chain with probabilities
 - [ ] Higher Order Chains 
+- [ ] Fix `Chain.Next()`
 
 ## References
 
