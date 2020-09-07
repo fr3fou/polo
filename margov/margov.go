@@ -42,7 +42,7 @@ func (c Chain) String() string {
 	return sb.String()
 }
 
-// Predict returns the probability of the next state happening given the current one.
-func (c Chain) Predict(next State, current State) float64 {
+// Probability returns the probability of the next state happening given the current one.
+func (c Chain) Probability(next State, current State) float64 {
 	return c[current][next]
 }
