@@ -15,7 +15,7 @@ func New() Chain {
 }
 
 // Set sets the probability matrix of the current state to some next state.
-func (c Chain) Set(current State, next State, probability float64) {
+func (c Chain) Set(next State, current State, probability float64) {
 	// If the key state doesn't exist, initialize it
 	if _, ok := c[current]; !ok {
 		c[current] = Probabilities{}
