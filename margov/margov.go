@@ -46,3 +46,9 @@ func (c Chain) String() string {
 func (c Chain) Probability(next State, current State) float64 {
 	return c[current][next]
 }
+
+// Next gives the next state given the current state.
+// TODO: implement
+func (c Chain) Next(current State) State {
+	panic("TODO implement")
+}
