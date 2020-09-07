@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	stdrand "math/rand"
+	"math/rand"
 	"time"
 
 	"github.com/fr3fou/margov/margov"
@@ -15,7 +15,7 @@ const (
 )
 
 func init() {
-	stdrand.Seed(time.Now().Unix())
+	rand.Seed(time.Now().Unix())
 }
 
 func _main() {
