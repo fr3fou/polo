@@ -3,6 +3,8 @@ package margov
 import (
 	"fmt"
 	"strings"
+
+	"github.com/fr3fou/margov/rand"
 )
 
 // State is a string.
@@ -49,5 +51,13 @@ func (c Chain) Probability(next State, current State) float64 {
 
 // Next gives the next state given the current state.
 func (c Chain) Next(current State) State {
-	return ""
+	probs := []float64{}
+	states := []State{}
+
+	for state, probability := range c[current] {
+		probs = append(probs, probability)
+		states = append(states, state)
+	}
+
+	return states[rand.Sample(probs, 1000.0)]
 }

@@ -6,6 +6,7 @@ import (
 )
 
 // Sample is a (not 1:1) analog to `np.random.choice` with pseudo-random number sampling.
+// https://www.wikiwand.com/en/Pseudo-random_number_sampling
 func Sample(p []float64, accuracy float64) int {
 	intervals := []int{}
 
