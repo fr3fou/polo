@@ -33,4 +33,7 @@ func main() {
 	fmt.Println(chain)
 
 	fmt.Println("The probability of tomorrow being Sunny, given that today was Rainy is", chain.Probability(Sunny, Rainy))
+
+	fmt.Println()
+	fmt.Println("The next state, given that today was Sunny is", chain.Next(Sunny))
 }
