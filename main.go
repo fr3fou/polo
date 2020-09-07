@@ -18,7 +18,7 @@ func init() {
 	rand.Seed(time.Now().Unix())
 }
 
-func _main() {
+func main() {
 	chain := margov.New()
 
 	// Given that the current day is Sunny.
