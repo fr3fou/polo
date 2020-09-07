@@ -13,11 +13,11 @@ func New() Chain {
 	return Chain{}
 }
 
-func (c Chain) Set(state State, otherState State, probability float64) {
+func (c Chain) Set(current State, next State, probability float64) {
 	// If the key state doesn't exist, initialize it
-	if _, ok := c[state]; !ok {
-		c[state] = Probabilities{}
+	if _, ok := c[current]; !ok {
+		c[current] = Probabilities{}
 	}
 
-	c[state][otherState] = probability
+	c[current][next] = probability
 }
