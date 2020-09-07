@@ -2,6 +2,7 @@ package margov
 
 import (
 	"fmt"
+	"math"
 	"strings"
 )
 
@@ -48,7 +49,15 @@ func (c Chain) Probability(next State, current State) float64 {
 }
 
 // Next gives the next state given the current state.
-// TODO: implement
 func (c Chain) Next(current State) State {
-	panic("TODO implement")
+	max := math.Inf(-1)
+	var bestState State
+
+	for next, probability := range c[current] {
+		if probability > max {
+			bestState = next
+		}
+	}
+
+	return bestState
 }
