@@ -2,9 +2,8 @@ package margov
 
 import (
 	"fmt"
+	"math/rand"
 	"strings"
-
-	"github.com/fr3fou/margov/rand"
 )
 
 // State is a string.
@@ -59,5 +58,25 @@ func (c Chain) Next(current State) State {
 		states = append(states, state)
 	}
 
-	return states[rand.Sample(probs, 1000.0)]
+	sum := cumsum(probs)
+	sample := rand.Float64()
+
+	for index, val := range sum {
+		if sample <= val {
+			return states[index]
+		}
+	}
+
+	return ""
+}
+
+func cumsum(p []float64) []float64 {
+	sums := make([]float64, len(p))
+	sums[0] = p[0]
+
+	for i := 1; i < len(p); i++ {
+		sums[i] = sums[i-1] + p[i]
+	}
+
+	return sums
 }
