@@ -72,10 +72,11 @@ func (c Chain) Next(current State) State {
 
 func cumsum(p []float64) []float64 {
 	sums := make([]float64, len(p))
-	sums[0] = p[0]
+	sum := 0.0
 
-	for i := 1; i < len(p); i++ {
-		sums[i] = sums[i-1] + p[i]
+	for i, p := range p {
+                sum += p
+		sums[i] = sum
 	}
 
 	return sums
