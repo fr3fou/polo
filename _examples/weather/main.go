@@ -19,22 +19,22 @@ func init() {
 }
 
 func main() {
-	chain := margov.New()
+	chain := margov.New(1)
 
 	// Given that the current day is Sunny.
-	chain.Set(Sunny, Sunny, 0.8)
-	chain.Set(Rainy, Sunny, 0.05)
-	chain.Set(Cloudy, Sunny, 0.15)
+	chain.Set(Sunny, 0.8, Sunny)
+	chain.Set(Rainy, 0.05, Sunny)
+	chain.Set(Cloudy, 0.15, Sunny)
 
 	// Given that the current day is Rainy.
-	chain.Set(Sunny, Rainy, 0.2)
-	chain.Set(Rainy, Rainy, 0.6)
-	chain.Set(Cloudy, Rainy, 0.2)
+	chain.Set(Sunny, 0.2, Rainy)
+	chain.Set(Rainy, 0.6, Rainy)
+	chain.Set(Cloudy, 0.2, Rainy)
 
 	// Given that the current day is Rainy.
-	chain.Set(Sunny, Cloudy, 0.2)
-	chain.Set(Rainy, Cloudy, 0.3)
-	chain.Set(Cloudy, Cloudy, 0.5)
+	chain.Set(Sunny, 0.2, Cloudy)
+	chain.Set(Rainy, 0.3, Cloudy)
+	chain.Set(Cloudy, 0.5, Cloudy)
 
 	fmt.Println(chain)
 

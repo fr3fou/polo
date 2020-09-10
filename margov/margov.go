@@ -12,20 +12,28 @@ type State = string
 // Chain is a Sequence of random states -> probabilities.
 type Chain struct {
 	StateTransitions map[State]Probabilities
+	Order            int
 }
 
 // Probabilities gives the probabilities of going to the next state given some state.
 type Probabilities map[State]float64
 
 // New is a constructor of Chain.
-func New() Chain {
+func New(order int) Chain {
 	return Chain{
+		Order:            order,
 		StateTransitions: map[string]Probabilities{},
 	}
 }
 
 // Set sets the probability matrix of the current state to some next state.
-func (c Chain) Set(next State, current State, probability float64) {
+func (c Chain) Set(next State, probability float64, states ...State) {
+	if len(states) != c.Order {
+		panic("Wrong amount of states provided")
+	}
+
+	current := strings.Join(states, " ")
+
 	// If the key state doesn't exist, initialize it
 	if _, ok := c.StateTransitions[current]; !ok {
 		c.StateTransitions[current] = Probabilities{}
