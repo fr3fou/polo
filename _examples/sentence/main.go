@@ -1,32 +1,21 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/fr3fou/margov/margov"
 )
 
-/*
-	" ":          {"I"},
-	" I":         {"am"},
-	"I am":       {"a", "not"},
-	"a free":     {"man!"},
-	"am a":       {"free"},
-	"am not":     {"a"},
-	"a number!":  {"I"},
-	"number! I":  {"am"},
-	"not a":      {"number!"},
-*/
 func main() {
 	str := "I am not a number! I am a free man! I am also a wow"
-	h(g(f(str)), 10, str)
+	order := 2
+	occurrences := buildOccurrences(str, order)
+	chain := createChain(occurrences, order)
 	//  I am not a number! I am a free man!
 }
 
-func f(str string) map[string]map[string]int {
-	order := 2
-	text := " " + str
+func buildOccurrences(str string, order int) map[string]map[string]int {
+	text := " " + str // Pad beginning with empty string
 	occurrences := map[string]map[string]int{}
 	words := strings.Split(text, " ")
 
@@ -43,8 +32,8 @@ func f(str string) map[string]map[string]int {
 	return occurrences
 }
 
-func g(m map[string]map[string]int) margov.Chain {
-	chain := margov.New(2)
+func createChain(m map[string]map[string]int, order int) margov.Chain {
+	chain := margov.New(order)
 
 	for pair, words := range m {
 		total := float64(len(words))
@@ -56,15 +45,15 @@ func g(m map[string]map[string]int) margov.Chain {
 	return chain
 }
 
-func h(c margov.Chain, n int, str string) {
-	order := 2
-	text := " " + str
-	words := strings.Split(text, " ")
-	next := strings.Join(words[:order], " ")
+// func h(c margov.Chain, n int, str string) {
+// 	order := 2
+// 	text := " " + str
+// 	words := strings.Split(text, " ")
+// 	next := strings.Join(words[:order], " ")
 
-	for i := 0; i < n; i++ {
-		result := c.Next(next)
-		fmt.Print(result, " ")
-		next = strings.Join(words[i:i+order], " ")
-	}
-}
+// 	for i := 0; i < n; i++ {
+// 		result := c.Next(next)
+// 		fmt.Print(result, " ")
+// 		next = strings.Join(words[i:i+order], " ")
+// 	}
+// }
