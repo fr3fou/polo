@@ -75,7 +75,7 @@ func cumsum(p []float64) []float64 {
 	sum := 0.0
 
 	for i, p := range p {
-                sum += p
+		sum += p
 		sums[i] = sum
 	}
 
