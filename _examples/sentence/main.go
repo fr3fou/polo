@@ -19,13 +19,12 @@ import (
 	"not a":      {"number!"},
 */
 func main() {
-	// chain := margov.New(2)
-
-	f("I am not a number! I am a free man!")
+	str := "I am not a number! I am a free man! I am also a wow"
+	h(g(f(str)), 10, str)
 	//  I am not a number! I am a free man!
 }
 
-func f(str string) {
+func f(str string) map[string]map[string]int {
 	order := 2
 	text := " " + str
 	occurrences := map[string]map[string]int{}
@@ -41,11 +40,12 @@ func f(str string) {
 		occurrences[pair][words[i+order]]++
 	}
 
-	g(occurrences)
+	return occurrences
 }
 
-func g(m map[string]map[string]int) {
+func g(m map[string]map[string]int) margov.Chain {
 	chain := margov.New(2)
+
 	for pair, words := range m {
 		total := float64(len(words))
 		for word, occurrence := range words {
@@ -53,5 +53,18 @@ func g(m map[string]map[string]int) {
 		}
 	}
 
-	fmt.Println(chain)
+	return chain
+}
+
+func h(c margov.Chain, n int, str string) {
+	order := 2
+	text := " " + str
+	words := strings.Split(text, " ")
+	next := strings.Join(words[:order], " ")
+
+	for i := 0; i < n; i++ {
+		result := c.Next(next)
+		fmt.Print(result, " ")
+		next = strings.Join(words[i:i+order], " ")
+	}
 }
