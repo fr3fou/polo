@@ -28,7 +28,7 @@ func f(str string) {
 	text := " " + str
 	// occurrences := map[string]int{}
 	words := strings.Split(text, " ")
-	pairs := []string{}
+	pairs := []string{" "}
 
 	for i := 0; i < len(words)-order; i++ {
 		pairs = append(pairs, strings.Join(words[i:i+order], " "))
@@ -37,4 +37,5 @@ func f(str string) {
 	for i := range pairs {
 		fmt.Println(pairs[i])
 	}
+
 }
