@@ -1,9 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 
-	"github.com/davecgh/go-spew/spew"
+	"github.com/fr3fou/margov/margov"
 )
 
 /*
@@ -29,7 +30,6 @@ func f(str string) {
 	text := " " + str
 	occurrences := map[string]map[string]int{}
 	words := strings.Split(text, " ")
-	// pairs := []string{" "}
 
 	for i := 0; i < len(words)-order; i++ {
 		pair := strings.Join(words[i:i+order], " ")
@@ -41,5 +41,17 @@ func f(str string) {
 		occurrences[pair][words[i+order]]++
 	}
 
-	spew.Dump(occurrences)
+	g(occurrences)
+}
+
+func g(m map[string]map[string]int) {
+	chain := margov.New(2)
+	for pair, words := range m {
+		total := float64(len(words))
+		for word, occurrence := range words {
+			chain.Set(word, float64(occurrence)/total, strings.Split(pair, " ")...)
+		}
+	}
+
+	fmt.Println(chain)
 }
