@@ -11,11 +11,10 @@ func main() {
 	order := 2
 	occurrences := buildOccurrences(str, order)
 	chain := createChain(occurrences, order)
-	//  I am not a number! I am a free man!
 }
 
 func buildOccurrences(str string, order int) map[string]map[string]int {
-	text := " " + str // Pad beginning with empty string
+	text := " " + str // Pad the beginning with empty string
 	occurrences := map[string]map[string]int{}
 	words := strings.Split(text, " ")
 
