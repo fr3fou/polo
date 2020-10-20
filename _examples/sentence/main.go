@@ -63,7 +63,7 @@ func main() {
 	order := 1
 	occurrences := buildOccurrences(sentences, order)
 	chain := createChain(occurrences, order)
-	fmt.Println(predict(chain, "da", 5))
+	fmt.Println(predict(chain, "kvo", 10))
 }
 
 func buildOccurrences(sentences []string, order int) map[string]map[string]int {
@@ -109,7 +109,11 @@ func predict(c margov.Chain, input string, n int) string {
 	next := input
 
 	for i := 0; i < n; i++ {
-		next = c.Next(next)
+		temp := c.Next(next)
+		if next == temp {
+			return final
+		}
+		next = temp
 		final += next + " "
 	}
 
