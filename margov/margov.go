@@ -47,7 +47,7 @@ func (c Chain) String() string {
 
 	for current, matrix := range c.StateTransitions {
 		for next, probability := range matrix {
-			sb.WriteString(fmt.Sprintf("P(%s|%s) = %.02f\n", next, current, probability))
+			sb.WriteString(fmt.Sprintf("P('%s'|'%s') = %.02f\n", next, current, probability))
 		}
 		sb.WriteString("\n")
 	}
