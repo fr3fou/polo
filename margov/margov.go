@@ -79,7 +79,7 @@ func (c Chain) Next(current State) State {
 		}
 	}
 
-	return ""
+	return current
 }
 
 func cumsum(p []float64) []float64 {
