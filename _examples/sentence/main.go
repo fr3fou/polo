@@ -56,33 +56,33 @@ func main() {
 
 		return f.Close()
 	})
-
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(len(sentences))
-	// order := 1
-	// occurrences := buildOccurrences(str, order)
-	// chain := createChain(occurrences, order)
+	order := 1
+	occurrences := buildOccurrences(sentences, order)
+	chain := createChain(occurrences, order)
+	fmt.Println(predict(chain, "da", 5))
 }
 
-func buildOccurrences(str string, order int) map[string]map[string]int {
-	text := " " + str // Pad the beginning with empty string
+func buildOccurrences(sentences []string, order int) map[string]map[string]int {
 	occurrences := map[string]map[string]int{}
-	words := strings.Split(text, " ")
+	for _, str := range sentences {
+		text := " " + str // Pad the beginning with empty string
+		words := strings.Split(text, " ")
 
-	// TODO: optimize this
-	for i := 0; i < len(words)-order; i++ {
-		pair := strings.Join(words[i:i+order], " ")
+		// TODO: optimize this
+		for i := 0; i < len(words)-order; i++ {
+			pair := strings.Join(words[i:i+order], " ")
 
-		if _, ok := occurrences[pair]; !ok {
-			occurrences[pair] = map[string]int{}
+			if _, ok := occurrences[pair]; !ok {
+				occurrences[pair] = map[string]int{}
+			}
+
+			occurrences[pair][words[i+order]]++
 		}
-
-		occurrences[pair][words[i+order]]++
 	}
-
 	return occurrences
 }
 
@@ -98,6 +98,10 @@ func createChain(m map[string]map[string]int, order int) margov.Chain {
 	}
 
 	return chain
+}
+
+func predictRandom(c margov.Chain, n int) string {
+	return ""
 }
 
 func predict(c margov.Chain, input string, n int) string {
