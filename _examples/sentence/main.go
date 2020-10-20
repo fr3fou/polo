@@ -1,16 +1,70 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/fr3fou/margov/margov"
 )
 
+type DM struct {
+	Messages []Message `json:"messages"`
+}
+
+type Message struct {
+	Content string `json:"content"`
+	Type    string `json:"type"`
+}
+
 func main() {
-	str := "I am not a number! I am a free man! I am also a wow"
-	order := 2
-	occurrences := buildOccurrences(str, order)
-	chain := createChain(occurrences, order)
+	if len(os.Args) < 2 {
+		panic("not enough args, provide path to fb inbox dir")
+	}
+	dir := os.Args[1]
+
+	sentences := []string{}
+
+	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+
+		if info.IsDir() {
+			return nil
+		}
+
+		f, err := os.Open(path)
+		if err != nil {
+			return err
+		}
+
+		var d DM
+		if err := json.NewDecoder(f).Decode(&d); err != nil {
+			return err
+		}
+
+		for _, m := range d.Messages {
+			if m.Type != "Generic" {
+				continue
+			}
+
+			sentences = append(sentences, m.Content)
+		}
+
+		return f.Close()
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(len(sentences))
+	// order := 1
+	// occurrences := buildOccurrences(str, order)
+	// chain := createChain(occurrences, order)
 }
 
 func buildOccurrences(str string, order int) map[string]map[string]int {
@@ -18,6 +72,7 @@ func buildOccurrences(str string, order int) map[string]map[string]int {
 	occurrences := map[string]map[string]int{}
 	words := strings.Split(text, " ")
 
+	// TODO: optimize this
 	for i := 0; i < len(words)-order; i++ {
 		pair := strings.Join(words[i:i+order], " ")
 
@@ -34,6 +89,7 @@ func buildOccurrences(str string, order int) map[string]map[string]int {
 func createChain(m map[string]map[string]int, order int) margov.Chain {
 	chain := margov.New(order)
 
+	// TODO: optimize this
 	for pair, words := range m {
 		total := float64(len(words))
 		for word, occurrence := range words {
@@ -44,15 +100,14 @@ func createChain(m map[string]map[string]int, order int) margov.Chain {
 	return chain
 }
 
-// func h(c margov.Chain, n int, str string) {
-// 	order := 2
-// 	text := " " + str
-// 	words := strings.Split(text, " ")
-// 	next := strings.Join(words[:order], " ")
+func predict(c margov.Chain, input string, n int) string {
+	final := input + " "
+	next := input
 
-// 	for i := 0; i < n; i++ {
-// 		result := c.Next(next)
-// 		fmt.Print(result, " ")
-// 		next = strings.Join(words[i:i+order], " ")
-// 	}
-// }
+	for i := 0; i < n; i++ {
+		next = c.Next(next)
+		final += next + " "
+	}
+
+	return final
+}
