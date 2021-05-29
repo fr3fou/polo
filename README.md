@@ -29,7 +29,7 @@ The next state, given that today was Sunny is Sunny
 - [x] Fix `Chain.Next()`
 - [x] Implement `cumsum` and implement better `rand.Sample` algorithm
 - [ ] Drawing/Visualizing a graph of chain with probabilities
-- [ ] Higher Order Chains 
+- [x] Higher Order Chains 
 
 ## References
 
