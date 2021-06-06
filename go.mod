@@ -1,4 +1,4 @@
-module github.com/fr3fou/margov
+module github.com/fr3fou/polo
 
 go 1.15
 

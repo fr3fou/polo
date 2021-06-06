@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/fr3fou/margov/margov"
+	"github.com/fr3fou/polo/polo"
 )
 
 type DM struct {
@@ -95,8 +95,8 @@ func buildOccurrences(sentences []string, order int) map[string]map[string]int {
 	return occurrences
 }
 
-func createChain(m map[string]map[string]int, order int) margov.Chain {
-	chain := margov.New(order)
+func createChain(m map[string]map[string]int, order int) polo.Chain {
+	chain := polo.New(order)
 
 	// TODO: optimize this
 	for pair, words := range m {
@@ -109,7 +109,7 @@ func createChain(m map[string]map[string]int, order int) margov.Chain {
 	return chain
 }
 
-func predictRandom(c margov.Chain, n int) string {
+func predictRandom(c polo.Chain, n int) string {
 	i := rand.Intn(len(c.StateTransitions))
 	for k := range c.StateTransitions {
 		if i == 0 {
@@ -121,7 +121,7 @@ func predictRandom(c margov.Chain, n int) string {
 	return ""
 }
 
-func predict(c margov.Chain, input string, n int) string {
+func predict(c polo.Chain, input string, n int) string {
 	final := input + " "
 	next := input
 

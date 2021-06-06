@@ -1,10 +1,10 @@
-# margov
+# polo
 A Markov chain implementation in Go.
 
 ![Chain](./chain.png)
 
 ```bash
-➜  margov git:(master) ✗ go run .
+➜ polo git:(master) ✗ go run .
 P(Sunny|Sunny) = 0.80
 P(Rainy|Sunny) = 0.05
 P(Cloudy|Sunny) = 0.15

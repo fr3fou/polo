@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/fr3fou/margov/margov"
+	"github.com/fr3fou/polo/polo"
 )
 
 const (
@@ -19,7 +19,7 @@ func init() {
 }
 
 func main() {
-	chain := margov.New(1)
+	chain := polo.New(1)
 
 	// Given that the current day is Sunny.
 	chain.Set(Sunny, 0.8, Sunny)
