@@ -25,7 +25,7 @@ type Message struct {
 
 func main() {
 	if len(os.Args) < 2 {
-		panic("not enough args, provide path to fb inbox dir")
+		panic("not enough args, provide path to discord dm json")
 	}
 	file := os.Args[1]
 	var start string
