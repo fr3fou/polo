@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math/rand"
 	"strings"
+
+	"github.com/emicklei/dot"
 )
 
 // State is a string.
@@ -80,6 +82,18 @@ func (c Chain) Next(current State) State {
 	}
 
 	return current
+}
+
+func (c Chain) Graph() string {
+	g := dot.NewGraph(dot.Directed)
+	for from, probabilities := range c.StateTransitions {
+		fromNode := g.Node(from)
+		for to, prob := range probabilities {
+			toNode := g.Node(to)
+			g.Edge(fromNode, toNode, fmt.Sprintf("%.2f", prob))
+		}
+	}
+	return g.String()
 }
 
 func cumsum(p []float64) []float64 {

@@ -42,4 +42,5 @@ func main() {
 
 	fmt.Println()
 	fmt.Println("The next state, given that today was Sunny is", chain.Next(Sunny))
+	fmt.Println(chain.Graph())
 }
