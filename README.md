@@ -2,7 +2,7 @@
 
 A Markov chain implementation in Go.
 
-![Chain](./chain.png)
+![image](https://user-images.githubusercontent.com/1344906/134421146-e336e747-0aa1-41f4-8749-4a1f6872b0a7.png)
 
 ```bash
 ➜ polo git:(master) ✗ go run .
