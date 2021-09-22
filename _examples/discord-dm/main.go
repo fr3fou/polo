@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/chzyer/readline"
 	"github.com/fr3fou/polo/polo"
 )
 
@@ -28,9 +29,9 @@ func main() {
 		panic("not enough args, provide path to discord dm json")
 	}
 	file := os.Args[1]
-	var start string
+	var in string
 	if len(os.Args) == 3 {
-		start = os.Args[2]
+		in = os.Args[2]
 	}
 	sentences := []string{}
 
@@ -53,15 +54,24 @@ func main() {
 	fmt.Println("Press enter for the next generated message")
 	fmt.Println("	You can also enter a starting word")
 	fmt.Println("	Type 'quit' to quit")
+	rl, err := readline.New("> ")
+	if err != nil {
+		panic(err)
+	}
+	defer rl.Close()
 	for {
-		fmt.Scanln(&start)
-		if start == "quit" {
+		in, err = rl.ReadlineWithDefault(in)
+		if err != nil {
+			panic(err)
+		}
+		if in == "quit" {
 			break
 		}
-		if start == "" {
+		fmt.Print("< ")
+		if in == "" {
 			fmt.Println(predictRandom(chain, 10))
 		} else {
-			fmt.Println(predict(chain, start, 10))
+			fmt.Println(predict(chain, in, 10))
 		}
 	}
 }
