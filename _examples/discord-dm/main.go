@@ -29,9 +29,12 @@ func main() {
 		panic("not enough args, provide path to discord dm json")
 	}
 	file := os.Args[1]
-	var in string
+	mode := "repl"
 	if len(os.Args) == 3 {
-		in = os.Args[2]
+		mode = os.Args[2]
+		if !(mode == "repl" || mode == "graph") {
+			panic("mode must be repl or graph")
+		}
 	}
 	sentences := []string{}
 
@@ -51,6 +54,11 @@ func main() {
 	order := 1
 	occurrences := buildOccurrences(sentences, order)
 	chain := createChain(occurrences, order)
+	if mode == "graph" {
+		fmt.Println(chain.Graph())
+		return
+	}
+
 	fmt.Println("Press enter for the next generated message")
 	fmt.Println("	You can also enter a starting word")
 	fmt.Println("	Type 'quit' to quit")
@@ -60,20 +68,21 @@ func main() {
 	}
 	defer rl.Close()
 	for {
-		in, err = rl.ReadlineWithDefault(in)
+		mode, err = rl.ReadlineWithDefault(mode)
 		if err != nil {
 			panic(err)
 		}
-		if in == "quit" {
+		if mode == "quit" {
 			break
 		}
 		fmt.Print("< ")
-		if in == "" {
+		if mode == "" {
 			fmt.Println(predictRandom(chain, 10))
 		} else {
-			fmt.Println(predict(chain, in, 10))
+			fmt.Println(predict(chain, mode, 10))
 		}
 	}
+
 }
 
 func buildOccurrences(sentences []string, order int) map[string]map[string]int {
