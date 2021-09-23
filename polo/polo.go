@@ -28,20 +28,17 @@ func New(order int) Chain {
 	}
 }
 
-// Set sets the probability matrix of the current state to some next state.
-func (c Chain) Set(next State, probability float64, states ...State) {
-	if len(states) != c.Order {
+// Set sets the probability matrix of the to state coming from the from states
+func (c Chain) Set(to State, probability float64, from ...State) {
+	if len(from) != c.Order {
 		panic("Wrong amount of states provided")
 	}
-
-	current := strings.Join(states, " ")
-
+	current := strings.Join(from, " ")
 	// If the key state doesn't exist, initialize it
 	if _, ok := c.StateTransitions[current]; !ok {
 		c.StateTransitions[current] = Probabilities{}
 	}
-
-	c.StateTransitions[current][next] = probability
+	c.StateTransitions[current][to] = probability
 }
 
 func (c Chain) String() string {
@@ -66,7 +63,6 @@ func (c Chain) Probability(next State, current State) float64 {
 func (c Chain) Next(current State) State {
 	probs := []float64{}
 	states := []State{}
-
 	for state, probability := range c.StateTransitions[current] {
 		probs = append(probs, probability)
 		states = append(states, state)
@@ -74,13 +70,11 @@ func (c Chain) Next(current State) State {
 
 	sum := cumsum(probs)
 	sample := rand.Float64()
-
 	for index, val := range sum {
 		if sample <= val {
 			return states[index]
 		}
 	}
-
 	return current
 }
 
@@ -94,6 +88,35 @@ func (c Chain) Graph() string {
 		}
 	}
 	return g.String()
+}
+
+// NextUntilEnd generates states until it reaches either itself or EndState
+func (c Chain) NextUntilEnd(input State) State {
+	final := input + " "
+	prev := input
+	next := ""
+	for next != EndState {
+		next = c.Next(prev)
+		if next == prev {
+			return final
+		}
+		if next != EndState {
+			final += next + " "
+		}
+		prev = next
+	}
+	return final
+}
+
+func (c Chain) RandomState() State {
+	i := rand.Intn(len(c.StateTransitions))
+	for k := range c.StateTransitions {
+		if i == 0 {
+			return k
+		}
+		i--
+	}
+	return ""
 }
 
 func cumsum(p []float64) []float64 {

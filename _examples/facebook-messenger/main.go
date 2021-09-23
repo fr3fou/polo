@@ -3,11 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"os"
 	"path/filepath"
-	"strings"
 
+	"github.com/chzyer/readline"
 	"github.com/fr3fou/polo/polo"
 )
 
@@ -25,11 +24,6 @@ func main() {
 		panic("not enough args, provide path to fb inbox dir")
 	}
 	dir := os.Args[1]
-	var start string
-	if len(os.Args) == 3 {
-		start = os.Args[2]
-	}
-
 	sentences := []string{}
 
 	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
@@ -65,74 +59,30 @@ func main() {
 		panic(err)
 	}
 
-	order := 1
-	occurrences := buildOccurrences(sentences, order)
-	chain := createChain(occurrences, order)
-	if start == "" {
-		fmt.Println(predictRandom(chain, 10))
-	} else {
-		fmt.Println(predict(chain, start, 10))
+	chain := polo.NewFromText(1, sentences)
+	fmt.Println("Press enter for the next generated message")
+	fmt.Println("	You can also enter a starting word")
+	fmt.Println("	Type 'quit' to quit")
+	rl, err := readline.New("> ")
+	if err != nil {
+		panic(err)
 	}
-}
-
-func buildOccurrences(sentences []string, order int) map[string]map[string]int {
-	occurrences := map[string]map[string]int{}
-	for _, str := range sentences {
-		text := " " + str // Pad the beginning with empty string
-		words := strings.Split(text, " ")
-
-		// TODO: optimize this
-		for i := 0; i < len(words)-order; i++ {
-			pair := strings.Join(words[i:i+order], " ")
-
-			if _, ok := occurrences[pair]; !ok {
-				occurrences[pair] = map[string]int{}
-			}
-
-			occurrences[pair][words[i+order]]++
+	defer rl.Close()
+	in := ""
+	for {
+		in, err = rl.ReadlineWithDefault(in)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if in == "quit" {
+			return
+		}
+		fmt.Print("< ")
+		if in == "" {
+			fmt.Println(chain.NextUntilEnd(chain.RandomState()))
+		} else {
+			fmt.Println(chain.NextUntilEnd(in))
 		}
 	}
-	return occurrences
-}
-
-func createChain(m map[string]map[string]int, order int) polo.Chain {
-	chain := polo.New(order)
-
-	// TODO: optimize this
-	for pair, words := range m {
-		total := float64(len(words))
-		for word, occurrence := range words {
-			chain.Set(word, float64(occurrence)/total, strings.Split(pair, " ")...)
-		}
-	}
-
-	return chain
-}
-
-func predictRandom(c polo.Chain, n int) string {
-	i := rand.Intn(len(c.StateTransitions))
-	for k := range c.StateTransitions {
-		if i == 0 {
-			return predict(c, k, n)
-		}
-		i--
-	}
-
-	return ""
-}
-
-func predict(c polo.Chain, input string, n int) string {
-	final := input + " "
-	next := input
-
-	for i := 0; i < n; i++ {
-		temp := c.Next(next)
-		if next == temp {
-			return final
-		}
-		next = temp
-		final += next + " "
-	}
-
-	return final
 }
