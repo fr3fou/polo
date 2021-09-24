@@ -34,6 +34,9 @@ func buildOccurrences(states []State, order int) map[State]map[State]int {
 			}
 			occurrences[pair][words[i+order]]++
 		}
+                if _, ok := occurrences[pair]; !ok {
+		        occurrences[pair] = map[string]int{}
+		}
 		occurrences[pair][EndState]++
 	}
 	return occurrences
