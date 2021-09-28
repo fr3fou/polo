@@ -95,14 +95,16 @@ func (c Chain) NextUntilEnd(input State) State {
 	final := input + " "
 	prev := input
 	next := ""
+	words := strings.Fields(prev)
 	for next != EndState {
-		next = c.Next(prev)
+		next = c.Next(strings.Join(words, " "))
 		if next == prev {
 			return final
 		}
 		if next != EndState {
 			final += next + " "
 		}
+		words = append(words[1:], next)
 		prev = next
 	}
 	return final
@@ -122,11 +124,9 @@ func (c Chain) RandomState() State {
 func cumsum(p []float64) []float64 {
 	sums := make([]float64, len(p))
 	sum := 0.0
-
 	for i, p := range p {
 		sum += p
 		sums[i] = sum
 	}
-
 	return sums
 }
